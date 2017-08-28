@@ -1,0 +1,7 @@
+{
+	"user":		"msfdev",
+	"host":		"127.0.0.1",
+	"database":	"msf_dev_db",
+	"password":	"metasploit",
+	"port": 5432
+}
