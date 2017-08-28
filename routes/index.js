@@ -1,10 +1,16 @@
-var express = require('express');
-var router = express.Router();
+// var express = require('express');
+// var router = express.Router();
+const Router = require('express-promise-router')
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index');
-  // res.send('respond with a resource');
-});
+const db = require('../db')
+
+const router = new Router()
+
+router.get('/', async(req,res) => {
+	const { rows } = await db.query('SELECT * FROM workspaces')
+	res.render('index', {
+		workspaces:rows
+	})
+})
 
 module.exports = router;
