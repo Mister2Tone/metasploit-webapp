@@ -1,15 +1,22 @@
-var express = require('express');
-var router = express.Router();
-var msfapi = require('../lib/workspaces.js');
+const Router = require('express-promise-router')
+const msfapi = require('../lib/workspaces.js');
+const db = require('../db')
+
+const router = new Router()
+
 
 router.get('/', function(req, res, next) {
-	console.log('1');
-	// msfapi.metasploitVersion( function(err, result){
-	// 	if(err){
-	// 		console.log("route err :"+err);
-	// 	}
-	// 	res.send(result);
-	// });
+	res.render("pages/workspaces/create");
 });
+
+router.post('/', async(req,res) => {
+	const data = [ req.body.name, 
+				   req.body.description ]
+	const text = 'INSERT INTO workspaces(name, description, created_at, updated_at) VALUES($1, $2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)'
+	const { rows } = await db.query(text, data)
+	res.redirect('/')
+})
+
+
 
 module.exports = router;
