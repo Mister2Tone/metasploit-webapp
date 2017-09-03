@@ -14,24 +14,32 @@
 	        	<li><a href="#">Metasploit App</a></li>
 	        	<li class="active">Workspace</li>
 	        </ol>
-
+	        <a href="/workspaces/new" class="btn btn-primary">Create..</a>
 	        <table class="table table-hover">
 	        	<thead>
 	        		<tr>
 	        		<th>#</th>
 	        		<th>Project Name</th>
-	        		<th>Hosts</th>
+	        		<th>Description</th>
 	        		<th>Updated at</th>
+	        		<th>Operation</th>
 		        	</tr>
 		        </thead>
 
 		        <tbody>
+		        	<% workspaces.forEach(function(workspace) { %>
 		        	<tr>
-		        		<td>1</td>
-		        		<td>Test</td>
-		        		<td>0</td>
-		        		<td>12/01/2017</td>
+		        		<td><%= workspace.id %></td>
+		        		<td><%= workspace.name %></td>
+		        		<td><%= workspace.description%></td>
+		        		<td><%= workspace.updated_at%></td>
+		        		<td>
+		        			<a href="workspaces/<%= workspace.id %>/edit" class="btn btn-warning">Edit</a>
+		        			<a href="workspaces/<%= workspace.id %>/delete" class="btn btn-danger">Delete</a>
+
+		        		</td>
 		        	</tr>
+		        	<%	}) %>
 	        	</tbody>
 	        </table>
         </div>

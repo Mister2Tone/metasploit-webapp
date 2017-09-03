@@ -11,8 +11,10 @@
     "debug": "~2.6.3",
     "ejs": "^2.5.7",
     "express": "~4.15.2",
+    "express-promise-router": "^2.0.0",
     "morgan": "~1.8.1",
     "msfrpc-client-node": "^0.2.2",
+    "pg": "^7.2.0",
     "serve-favicon": "~2.4.2"
   },
   "devDependencies": {

@@ -12,7 +12,8 @@ var workspaces = require('./routes/workspaces')
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', [__dirname + '/views', 
+				__dirname + '/view/workspaces']);
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
