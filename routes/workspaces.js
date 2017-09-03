@@ -40,4 +40,11 @@ router.post('/:id/edit', async(req,res) => {
 	res.redirect('/')
 })
 
+router.get('/:id/delete', async(req,res) => {
+	const data = [ req.params.id ]
+	const text = 'DELETE FROM workspaces WHERE id=($1)'
+	const { rows } = await db.query(text, data)
+	res.redirect('/')
+})
+
 module.exports = router
