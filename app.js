@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var msfapi = require('./lib/msfrpc-connection.js');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -45,5 +46,12 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+msfapi.runMsfCommand("version",function(err,result){
+  if(err){
+    console.log(err);
+  }
+  console.log(result);
+})
 
 module.exports = app;
