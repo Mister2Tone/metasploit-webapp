@@ -17,6 +17,26 @@ router.post('/new', async(req,res) => {
 	res.redirect('/')
 })
 
+router.get('/:id', async(req,res) => {
+	const data = [req.params.id]
+	const text = 'SELECT * FROM workspaces WHERE id=($1)'
+	const { rows } = await db.query(text, data)
+	const workspace = {
+		id : rows[0].id,
+		name : rows[0].name,
+		description : rows[0].description
+	}
+	msfapi.changeWorkspace(workspace.name, function(err,result){
+		if(err){
+			console.log(err);
+		}
+		console.log(result);
+	})
+	res.render('pages/workspaces/show', {
+		workspace
+	})
+})
+
 router.get('/:id/edit', async(req,res) => {
 	const data = [ req.params.id ]
 	const text = 'SELECT * FROM workspaces WHERE id=($1)'
@@ -45,6 +65,30 @@ router.get('/:id/delete', async(req,res) => {
 	const text = 'DELETE FROM workspaces WHERE id=($1)'
 	const { rows } = await db.query(text, data)
 	res.redirect('/')
+})
+
+router.post('/:id/tasks/new_scan', function(req,res) {
+	const workspace = { 
+		id : req.params.id,
+		name : req.body.workspaceName 
+	}
+	res.render('pages/workspaces/new_scan', {
+		workspace
+	})
+})
+
+router.post('/:id/tasks/scan_now', async(req,res) => {
+	const targetIp = req.body.targetIp
+
+	await msfapi.scanHostsWithNmap(targetIp, function(err,result){
+		if(err){
+			console.log(err);
+		}
+		console.log(result);
+	})
+
+	const scanResult = await msfapi.getMsfCommandDisplay()
+	res.send(scanResult)
 })
 
 module.exports = router
