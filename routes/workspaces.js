@@ -26,12 +26,7 @@ router.get('/:id', async(req,res) => {
 		name : rows[0].name,
 		description : rows[0].description
 	}
-	msfapi.changeWorkspace(workspace.name, function(err,result){
-		if(err){
-			console.log(err);
-		}
-		console.log(result);
-	})
+	msfapi.changeWorkspace(workspace.name)
 	res.render('pages/workspaces/show', {
 		workspace
 	})
@@ -79,16 +74,15 @@ router.post('/:id/tasks/new_scan', function(req,res) {
 
 router.post('/:id/tasks/scan_now', async(req,res) => {
 	const targetIp = req.body.targetIp
+	const id = req.params.id
 
-	await msfapi.scanHostsWithNmap(targetIp, function(err,result){
-		if(err){
-			console.log(err);
-		}
-		console.log(result);
-	})
+	msfapi.scanHostsWithNmap(targetIp)
+	res.redirect('/workspaces/'+id+'/tasks/status')
+})
 
+router.get('/:id/tasks/status', async(req,res) => {
 	const scanResult = await msfapi.getMsfCommandDisplay()
-	res.send(scanResult)
+	res.send(scanResult.data)
 })
 
 module.exports = router

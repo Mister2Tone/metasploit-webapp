@@ -47,11 +47,11 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-msfapi.runMsfCommand("version",function(err,result){
-  if(err){
+msfapi.initMsfConsole()
+  .then( (res) => {
+    console.log(res);
+  }).catch( (err) => {
     console.log(err);
-  }
-  console.log(result);
-})
+  })
 
 module.exports = app;
