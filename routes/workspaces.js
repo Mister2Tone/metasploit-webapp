@@ -77,12 +77,32 @@ router.post('/:id/tasks/scan_now', async(req,res) => {
 	const id = req.params.id
 
 	msfapi.scanHostsWithNmap(targetIp)
-	res.redirect('/workspaces/'+id+'/tasks/status')
+	res.redirect('/workspaces/tasks/status')
 })
 
-router.get('/:id/tasks/status', async(req,res) => {
-	const scanResult = await msfapi.getMsfCommandDisplay()
-	res.send(scanResult.data)
+router.get('/tasks/status', async(req,res) => {
+	
+	res.render('pages/workspaces/status')
+})
+
+router.get('/tasks/update', async(req,res) => {
+	res.writeHead(200, {
+		'Content-Type' : 'text/event-stream',
+		'Cache-Control' : 'no-cache',
+		'Connection' : 'keep-alive'
+	})
+
+	var ticker = setInterval( () => {
+		msfapi.getMsfCommandDisplay().then((result) => {
+			data = result.data.split('\n').join('(newline)')
+			success = /OS and Service detection performed./.test(data)
+			if(success){
+				clearInterval(ticker)
+			}
+			res.write('data: ' + data + '\n\n')
+		})
+	},5000)
+
 })
 
 module.exports = router
