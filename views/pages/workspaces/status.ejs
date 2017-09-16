@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<% include ./partials/head %>
+</head>
+<body class="container">
+	<header>
+		<% include ./partials/header %>
+	</header>
+
+	<main>
+		<div class="col-lg-12">
+	        <ol class="breadcrumb">
+	        	<li><a href="#">Metasploit App</a></li>
+	        	<li class="active"> Task Status </li>
+	        </ol>
+	        <h2 id="taskStatus"></h2>
+	        <pre id="taskLogs" style="max-height: 400px; overflow: auto;">
+	        	
+	        </pre>
+
+	    </div>
+	</main>
+
+	<footer>
+		<% include ./partials/footer %>
+	</footer>
+
+	<script>
+	    var source = new EventSource('/workspaces/tasks/update');
+	    console.log(source.readyState)
+	    console.log(source.url)
+	    success = 0;
+	    source.onmessage = function(e) {
+	    	if(e.data !== ''){
+	    		data = e.data.split('(newline)').join('\n');
+	      		document.getElementById("taskLogs").innerHTML += data + '<br>';
+	      		success = /OS and Service detection performed./.test(data);
+	      		if(success){
+	      			document.getElementById("taskStatus").innerHTML = 'Success!'
+	      			source.close()
+	      		}
+	      		else
+	      			document.getElementById("taskStatus").innerHTML = 'Waiting...'
+	    	}
+	    }
+  	</script>
+</body>
+</html>
