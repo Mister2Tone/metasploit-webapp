@@ -20,7 +20,7 @@
 	        		<h3 class="panel-title">Information Gathering</h3>
 	        	</div>
 	        	<div class="panel-body">
-	        		Hosts
+	        		<a href="/workspaces/<%= workspace.id %>/hosts">Hosts</a>
 	        	</div>
 	        	<div class="panel-footer">
 	        		<form action="<%=workspace.id%>/tasks/new_scan" method="post">
@@ -36,5 +36,6 @@
 	<footer>
 		<% include ./partials/footer %>
 	</footer>
+
 </body>
 </html>

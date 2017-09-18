@@ -62,6 +62,16 @@ router.get('/:id/delete', async(req,res) => {
 	res.redirect('/')
 })
 
+router.get('/:id/hosts', async(req,res) => {
+	const data = [req.params.id ]
+	const text = 'SELECT * FROM hosts WHERE workspace_id=($1)'
+	const { rows } = await db.query(text, data)
+	const hosts = rows
+	res.render('pages/workspaces/hosts', {
+		hosts
+	})
+})
+
 router.post('/:id/tasks/new_scan', function(req,res) {
 	const workspace = { 
 		id : req.params.id,
