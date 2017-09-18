@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<% include ./partials/head %>
+</head>
+<body class="container">
+	<header>
+		<% include ./partials/header %>
+	</header>
+
+	<main>
+		<div class="col-lg-12">
+	        <ol class="breadcrumb">
+	        	<li><a href="#">Metasploit App</a></li>
+	        	<li><a href="#">Workspace</a></li>
+	        	<li class="active">Hosts</li>
+	        </ol>
+	        <table class="table table-hover">
+	        	<thead>
+	        		<tr>
+	        		<th>#</th>
+	        		<th>Address</th>
+	        		<th>Name</th>
+	        		<th>OS Name</th>
+	        		<th>Purpose</th>
+	        		<th>Services</th>
+	        		<th>Vulns</th>
+	        		<th>Attempt</th>
+	        		<th>Updated</th>
+	        		<th>Status</th>
+		        	</tr>
+		        </thead>
+
+		        <tbody>
+		        	<% hosts.forEach(function(host) { %>
+		        	<tr>
+		        		<td><%= host.id %></td>
+		        		<td>
+		        			<a href="/hosts/<%= host.id %>">
+		        				<%= host.address %> (<%= host.mac %>)
+		        			</a>
+		        		</td>
+		        		<td><%= host.name %></td>
+		        		<td><%= host.os_name %> (<%= host.os_sp %>)</td>
+		        		<td><%= host.purpose %></td>
+		        		<td><%= host.service_count %></td>
+		        		<td><%= host.vuln_count %></td>
+		        		<td><%= host.exploit_attempt_count %></td>
+		        		<td><%= host.updated_at%></td>
+		        		<td><%= host.state %></td>
+		        	</tr>
+		        	<%	}) %>
+	        	</tbody>
+	        </table>
+        </div>
+    </main>
+
+    <footer>
+        <% include ./partials/footer %>
+    </footer>
+
+</body>
+</html>
