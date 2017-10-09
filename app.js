@@ -10,13 +10,15 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var workspaces = require('./routes/workspaces')
 var hosts = require('./routes/hosts')
+var modules = require('./routes/modules')
 
 var app = express();
 
 // view engine setup
 app.set('views', [__dirname + '/views', 
 				__dirname + '/view/workspaces',
-        __dirname + '/view/hosts' ]);
+        __dirname + '/view/hosts',
+        __dirname + '/view/modules' ]);
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
@@ -31,6 +33,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/workspaces', workspaces);
 app.use('/hosts', hosts);
+app.use('/modules', modules);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
