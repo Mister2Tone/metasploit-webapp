@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<% include ./partials/head %>
+</head>
+<body class="container">
+	<header>
+		<% include ./partials/header %>
+	</header>
+
+	<main>
+		<div class="col-lg-12">
+	        <ol class="breadcrumb">
+	        	<li><a href="/">Metasploit App</a></li>
+	        	<li><a href="/modules">Modules</a></li>
+	        	<li class="active"> Exploit Status </li>
+	        </ol>
+	        <h2 id="exploitStatus"></h2>
+	        <pre id="exploitLogs" style="max-height: 400px; overflow: auto;">
+	        	
+	        </pre>
+
+	    </div>
+	</main>
+
+	<footer>
+		<% include ./partials/footer %>
+	</footer>
+
+	<script>
+	    var source = new EventSource('/modules/status/update');
+	    console.log(source.readyState)
+	    console.log(source.url)
+	    success = 0;
+	    source.onmessage = function(e) {
+	    	if(e.data !== ''){
+	    		data = e.data.split('(newline)').join('\n');
+	      		document.getElementById("exploitLogs").innerHTML += data + '<br>';
+	      		success = /Meterpreter session \d opened/.test(data);
+	      		if(success){
+	      			document.getElementById("exploitStatus").innerHTML = 'Success!'
+	      			source.close()
+	      		}
+	      		else
+	      			document.getElementById("exploitStatus").innerHTML = 'Waiting...'
+	    	}
+	    }
+  	</script>
+</body>
+</html>

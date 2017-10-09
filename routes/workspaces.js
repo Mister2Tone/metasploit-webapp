@@ -1,5 +1,8 @@
 const Router = require('express-promise-router')
-const msfapi = require('../lib/workspaces.js')
+const workspaceApi = require('../lib/workspaces.js')
+const moduleApi = require('../lib/modules.js')
+const sessionApi = require('../lib/sessions.js')
+const jobApi = require('../lib/jobs.js')
 const db = require('../db')
 
 const router = new Router()
@@ -26,7 +29,7 @@ router.get('/:id', async(req,res) => {
 		name : rows[0].name,
 		description : rows[0].description
 	}
-	msfapi.changeWorkspace(workspace.name)
+	workspaceApi.changeWorkspace(workspace.name)
 	res.render('pages/workspaces/show', {
 		workspace
 	})
@@ -72,7 +75,23 @@ router.get('/:id/hosts', async(req,res) => {
 	})
 })
 
-router.post('/:id/tasks/new_scan', function(req,res) {
+router.get('/:id/sessions', async(req,res) => {
+	sessionApi.listSessionActive().then( (result) => {
+		res.send(result)
+	}).catch( (err) => {
+		res.send(err)
+	})
+})
+
+router.get('/:id/post', async(req,res) => {
+	sessionApi.writeMeterpreterConsole('1','reboot').then( (result) => {
+		res.send(result)
+	}).catch( (err) => {
+		res.send(err)
+	})
+})
+
+router.post('/:id/tasks/new_scan', async(req,res) => {
 	const workspace = { 
 		id : req.params.id,
 		name : req.body.workspaceName 
@@ -86,7 +105,7 @@ router.post('/:id/tasks/scan_now', async(req,res) => {
 	const targetIp = req.body.targetIp
 	const id = req.params.id
 
-	msfapi.scanHostsWithNmap(targetIp)
+	workspaceApi.scanHostsWithNmap(targetIp)
 	res.redirect('/workspaces/tasks/status')
 })
 
@@ -103,7 +122,7 @@ router.get('/tasks/update', async(req,res) => {
 	})
 
 	var ticker = setInterval( () => {
-		msfapi.getMsfCommandDisplay().then((result) => {
+		workspaceApi.getMsfCommandDisplay().then((result) => {
 			data = result.data.split('\n').join('(newline)')
 			success = /OS and Service detection performed./.test(data)
 			if(success){
