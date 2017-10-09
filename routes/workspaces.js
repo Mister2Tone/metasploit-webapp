@@ -75,22 +75,6 @@ router.get('/:id/hosts', async(req,res) => {
 	})
 })
 
-router.get('/:id/sessions', async(req,res) => {
-	sessionApi.listSessionActive().then( (result) => {
-		res.send(result)
-	}).catch( (err) => {
-		res.send(err)
-	})
-})
-
-router.get('/:id/post', async(req,res) => {
-	sessionApi.writeMeterpreterConsole('1','reboot').then( (result) => {
-		res.send(result)
-	}).catch( (err) => {
-		res.send(err)
-	})
-})
-
 router.post('/:id/tasks/new_scan', async(req,res) => {
 	const workspace = { 
 		id : req.params.id,

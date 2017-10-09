@@ -10,12 +10,6 @@ router.get('/', async(req,res) =>{
 	moduleApi.getModuleInfo('exploit','windows/dcerpc/ms03_026_dcom')
 		.then( (result) => {
 			module = result
-			// module = {
-			// 	name : result.name,
-			// 	fullname : result.fullname,
-			// 	rank : result.rank,
-			// 	disclosuredate : result.disclosuredate
-			// }
 		}).catch( (err) => {
 			console.log(err)
 		})
