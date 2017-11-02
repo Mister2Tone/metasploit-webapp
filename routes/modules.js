@@ -6,11 +6,25 @@ const db = require('../db')
 const router = new Router()
 
 router.get('/', async(req,res) =>{
-	var modules = await moduleApi.getExploitModules()
+	var modulesAll = await moduleApi.getExploitModules()
 					.then((result) => {
 						return result.modules
 					})
-	
+	var modules = {}
+
+	for(let i=0;i<modulesAll.length;i++){
+		modules[i] = await moduleApi.getModuleInfo('exploit',modulesAll[i])
+					.then( (result) => {
+						let buffer = {
+							name : result.name,
+							fullname : result.fullname,
+							rank : result.rank,
+							disclosuredate : result.disclosuredate
+						}
+						return buffer
+					})
+	}
+
 	res.render("pages/modules/index", {
 		modules 
 	})
@@ -23,15 +37,24 @@ router.post('/', async(req,res) => {
 					.then((result) => {
 						return result.modules
 					})
-	var modules = []
+	var modulesMatch = []
+	var modules = {}
 	var index = 0;
 	for(i = 0; i < modulesAll.length;i++){
-		// console.log("id: "+i+" =>"+modulesAll[i])
 		var pattern = new RegExp(keyword)
 		found = pattern.test(modulesAll[i])
 		if(found){
-			modules[index] = modulesAll[i]
-			// console.log("found "+index+" => "+modules[index]);
+			modulesMatch[index] = modulesAll[i]
+			modules[index] = await moduleApi.getModuleInfo('exploit',modulesMatch[index])
+					.then( (result) => {
+						let buffer = {
+							name : result.name,
+							fullname : result.fullname,
+							rank : result.rank,
+							disclosuredate : result.disclosuredate
+						}
+						return buffer
+					}) 
 			index++
 		}
 	}

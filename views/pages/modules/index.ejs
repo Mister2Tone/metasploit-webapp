@@ -24,20 +24,24 @@
 	        	<thead>
 	        		<tr>
 		        		<th>#</th>
-		        		<th>Name</th>
+		        		<th>Disclosure Date</th>
 		        		<th>Rank</th>
+		        		<th>Name</th>
+		        		<th>Path</th>
 		        	</tr>
 		        </thead>
 
 		        <tbody>
-		        	<% for(var Id in modules) { %>
+		        	<% for(var Id in modules) { count = Id%>
 		        	<tr>
-		        		<td><%= ++Id %></td>
-		        		<td><a href="/modules/<%= modules[Id] %>/new">
-		        			<%= modules[Id]%>
+		        		<td><%= ++count %></td>
+		        		<td> <%= modules[Id].disclosuredate %> </td>
+		        		<td> <%= modules[Id].rank %> </td>
+		        		<td><a href="/modules/<%= modules[Id].fullname %>/new">
+		        			<%= modules[Id].name%>
 		        			</a>
 		        		</td>
-		        		<td></td>
+		        		<td> <%= modules[Id].fullname %> </td>
 		        	</tr>
 		        	<% } %>
 	        	</tbody>
