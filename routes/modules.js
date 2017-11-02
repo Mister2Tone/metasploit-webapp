@@ -6,15 +6,37 @@ const db = require('../db')
 const router = new Router()
 
 router.get('/', async(req,res) =>{
-	var modules = {}
-	moduleApi.getModuleInfo('exploit','windows/dcerpc/ms03_026_dcom')
-		.then( (result) => {
-			module = result
-		}).catch( (err) => {
-			console.log(err)
-		})
-	res.render('pages/modules/index', {
-		module
+	var modules = await moduleApi.getExploitModules()
+					.then((result) => {
+						return result.modules
+					})
+	
+	res.render("pages/modules/index", {
+		modules 
+	})
+
+})
+
+router.post('/', async(req,res) => {
+	var keyword = req.body.keyword
+	var modulesAll = await moduleApi.getExploitModules()
+					.then((result) => {
+						return result.modules
+					})
+	var modules = []
+	var index = 0;
+	for(i = 0; i < modulesAll.length;i++){
+		// console.log("id: "+i+" =>"+modulesAll[i])
+		var pattern = new RegExp(keyword)
+		found = pattern.test(modulesAll[i])
+		if(found){
+			modules[index] = modulesAll[i]
+			// console.log("found "+index+" => "+modules[index]);
+			index++
+		}
+	}
+	res.render("pages/modules/index", { 
+		modules
 	})
 })
 
