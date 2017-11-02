@@ -14,25 +14,32 @@
 	        	<li><a href="#">Metasploit App</a></li>
 	        	<li class="active">Modules</li>
 	        </ol>
+	        <form action="/modules" method="post" class="form-inline" align="">
+				<div class="form-group">
+					<input type="text" name="keyword" class="form-control" placeholder="Module Search...">
+				</div>
+				<button type="submit" class="btn btn-primary">Search</button>	        	
+	        </form>
 	        <table class="table table-hover">
 	        	<thead>
 	        		<tr>
-		        		<th>Disclosure Date</th>
+		        		<th>#</th>
 		        		<th>Name</th>
 		        		<th>Rank</th>
 		        	</tr>
 		        </thead>
 
 		        <tbody>
+		        	<% for(var Id in modules) { %>
 		        	<tr>
-		        		<td><%= module.disclosuredate %></td>
-		        		<td>
-		        			<a href="/modules/<%= module.fullname %>/new">
-		        				<%= module.name %>
+		        		<td><%= ++Id %></td>
+		        		<td><a href="/modules/<%= modules[Id] %>/new">
+		        			<%= modules[Id]%>
 		        			</a>
 		        		</td>
-		        		<td><%= module.rank %></td>
+		        		<td></td>
 		        	</tr>
+		        	<% } %>
 	        	</tbody>
 	        </table>
         </div>

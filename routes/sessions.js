@@ -21,12 +21,13 @@ router.get('/', async(req,res) => {
 
 router.get('/:id/post', async(req,res) => {
 	const sessionId = req.params.id
+	console.log("xyz")
 	res.render('pages/sessions/post',{
 		sessionId
 	})
 })
 
-router.get('/:id/post/reboot_now', async(req,res) => {
+router.post('/:id/post/reboot_now', async(req,res) => {
 	const sessionId = req.params.id
 	console.log(sessionId);
 	var env = {}
