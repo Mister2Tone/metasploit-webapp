@@ -65,14 +65,21 @@ router.post('/', async(req,res) => {
 
 router.get('/*/new', async(req,res) => {
 	const moduleName = req.params[0]
-	moduleApi.getModuleInfo('exploit',moduleName)
+	await moduleApi.getModuleInfo('exploit',moduleName)
 		.then( (result) => {
-			module = result
+			moduleInfo = result
+		}).catch( (err) => {
+			console.log(err)
+		})
+	await moduleApi.getModuleOption('exploit',moduleName)
+		.then( (result) => {
+			moduleOption = result
 		}).catch( (err) => {
 			console.log(err)
 		})
 	res.render('pages/modules/show', {
-		module
+		moduleInfo,
+		moduleOption
 	})
 })
 

@@ -13,22 +13,56 @@
 	        <ol class="breadcrumb">
 	        	<li><a href="/">Metasploit App</a></li>
 	        	<li><a href="/modules">Modules</a></li>
-	        	<li class="active"><%= module.name %></li>
-	        </ol>
-	        <form action="/modules/exploit_now" method="post">
-	        	<div class="form-group">
-	        		<label for="name">Target Ip</label>
-	        		<input type="text" class="form-control" name="targetIp" placeholder="Target IP address">
-	        	</div>
-
-	        	<button type="submit" class="btn btn-danger pull-right">Exploit</button>
-	        </form>
+	        	<li class="active"><%= moduleInfo.name %></li>
+	        </ol>  
         </div>
+
+        <div class="col-lg-12">
+	       <div class="well" id="module-info">
+	       	<h2><%= moduleInfo.name %><br><small><%= moduleInfo.description%></small></h2>
+			  <p>
+				  <strong>Rank:</strong> <%= moduleInfo.rank%>
+				  <strong>Disclosure:</strong> <%= moduleInfo.disclosuredate%>
+				  <% if(moduleInfo.arch.length != 0){ %>
+				  	<strong>Arch:</strong> <%= moduleInfo.arch%>
+				  <% } %>
+				  <strong>Priviledged:</strong> 
+				  <% if(moduleInfo.priviledged){%>
+				  		Yes
+				  <% }else { %>
+				  		No
+				  <% } %>
+			  </p>
+			  <p><strong>License:</strong> <%= moduleInfo.license%></p>
+			  <p><strong>Author:</strong> <%= moduleInfo.authors%></p>
+			  <p><strong>Ref:</strong> <%= moduleInfo.references%></p>
+			  <p><strong>Targets:</strong> <%- JSON.stringify(moduleInfo.targets)%></p>
+
+			</div>
+	    </div>
+
+	    <div class="col-lg-12" >
+	      	<h1>Option</h1>
+	      	
+	    </div>
+
     </main>
 
     <footer>
         <% include ./partials/footer %>
     </footer>
+    <script>
+    	$(document).ready(function() {
+    		var moduleInfo = <%- JSON.stringify(moduleInfo) %>;
+    		console.log(moduleInfo);
+    		$.each(moduleInfo, function(key, data){
+    			// console.log("key: ",key);
+    			// console.log("data: ",data);
+    			// if($.type(data) === "string")
+    			// 	$("#module-info-left").append(key+ " : " + (data) +"<br>");
+    		})
+    	})
+    </script>
 
 </body>
 </html>
