@@ -24,7 +24,7 @@
 				  <strong>Rank:</strong> <%= moduleInfo.rank%>
 				  <strong>Disclosure:</strong> <%= moduleInfo.disclosuredate%>
 				  <% if(moduleInfo.arch.length != 0){ %>
-				  	<strong>Arch:</strong> <%= moduleInfo.arch%>
+				  	<strong>Arch:</strong> <span><%= moduleInfo.arch%></span>
 				  <% } %>
 				  <strong>Priviledged:</strong> 
 				  <% if(moduleInfo.priviledged){%>
@@ -41,25 +41,85 @@
 			</div>
 	    </div>
 
-	    <div class="col-lg-12" >
-	      	<h1>Option</h1>
-	      	
-	    </div>
+	    <div class="row">
+		    <div class="col-md-10 col-md-offset-1">
+			    <div class="panel panel-default" >
+			      	<div class="panel-heading">Customization</div>
+			      	<div class="panel-body">
+				      	<form action="#" method="post" id="moduleOption2Exploit">
+				      		<h1>Form</h1>
+				      		<div class="well" id="moduleRequired"><h3>moduleRequired</h3></div>
+				      		<div class="well" id="moduleAdvanced"><h3>moduleAdvanced</h3></div>
+				      		<div class="well" id="moduleEvasion"><h3>moduleEvasion</h3></div>
+
+				      		<button type="submit" class="btn-lg btn-block btn-danger">Exploit</button> 
+				      	</form>
+			      	</div>	
+			    </div>
+			</div>
+		</div>
 
     </main>
 
-    <footer>
+    <footer class="col-lg-12">
         <% include ./partials/footer %>
     </footer>
     <script>
     	$(document).ready(function() {
-    		var moduleInfo = <%- JSON.stringify(moduleInfo) %>;
-    		console.log(moduleInfo);
-    		$.each(moduleInfo, function(key, data){
-    			// console.log("key: ",key);
-    			// console.log("data: ",data);
-    			// if($.type(data) === "string")
-    			// 	$("#module-info-left").append(key+ " : " + (data) +"<br>");
+    		var moduleOption = <%- JSON.stringify(moduleOption) %>;
+    		console.log(moduleOption);
+    		$.each(moduleOption, function(optionKey, properties){
+    			
+    			var optionRequired = properties.required;
+    			var optionEvasion = properties.evasion;
+    			var optionAdvanced = properties.advanced;
+    			if(optionRequired && !optionAdvanced && !optionEvasion){
+    				var selector = "moduleRequired";
+    			}else if(optionAdvanced || optionRequired && !optionEvasion){
+    				var selector = "moduleAdvanced";
+    			}else if(optionEvasion || optionRequired && !optionAdvanced){
+    				var selector = "moduleEvasion";
+    			}
+
+    			var optionDesc = properties.desc;
+    			var optionType = properties.type;
+    			if(optionType == "bool"){
+    				var htmlInputFormat = '\
+    				<div class="checkbox">\
+					  <label>\
+					    <input type="checkbox" value="'+ optionKey +'">\
+					    '+ optionKey +'\
+					  </label>\
+					</div>\
+					<p class="help-block">'+optionDesc+'</p>';
+    			}else if(optionType == "enum"){
+    				var optionEnums = properties.enums;
+    				var htmlOptionEnums = '';
+    				optionEnums.forEach(function(item){
+    					htmlOptionEnums += '<option value="'+item+'">'+item+'</option>';
+    				})
+    				console.log(htmlOptionEnums);
+    				var htmlInputFormat = '\
+    				<div class="form-group">\
+						<label>'+optionKey+'</label>\
+						<p class="help-block">'+optionDesc+'</p>\
+	    				<select class="form-control">\
+						  '+htmlOptionEnums+'\
+						</select>\
+					</div>';
+    			}else{
+    				var htmlInputFormat = '\
+    				<div class="form-group">\
+						<label>'+optionKey+'</label>\
+						<p class="help-block">'+optionDesc+'</p>\
+						<input type="text" class="form-control" name="'+ optionKey +'" placeholder="'+optionKey+'">\
+					</div>';
+    			}
+ 
+    			$("#"+selector).append(htmlInputFormat);
+    			$.each(properties, function(propertiesKey, propertiesData){
+    				// $("#"+selector).append("|-->" +propertiesKey + " : " + propertiesData + "</br>");
+    			})
     		})
     	})
     </script>
