@@ -84,10 +84,8 @@ router.get('/*/new', async(req,res) => {
 })
 
 router.post('/exploit_now', async(req,res) => {
-	const targetIp = req.body.targetIp
-
-	workspaceApi.runExploit(targetIp)
-	res.redirect('/modules/status')
+	const payload = req.body
+	res.send(payload)
 })
 
 router.get('/status', async(req,res) => {
