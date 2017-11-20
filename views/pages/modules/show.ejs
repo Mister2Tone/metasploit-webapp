@@ -46,11 +46,10 @@
 			    <div class="panel panel-default" >
 			      	<div class="panel-heading">Customization</div>
 			      	<div class="panel-body">
-				      	<form action="/modules/exploit_now" method="post" id="moduleOption2Exploit">
+				      	<form action="/modules/<%= moduleInfo.fullname %>/exploit_now" method="post" id="moduleOption2Exploit">
 				      		<h1>Form</h1>
 				      		<div class="well" id="moduleRequired"><h3>moduleRequired</h3></div>
 				      		<div class="well" id="moduleAdvanced"><h3>moduleAdvanced</h3></div>
-				      		<div class="well" id="moduleEvasion"><h3>moduleEvasion</h3></div>
 
 				      		<button type="submit" class="btn-lg btn-block btn-danger">Exploit</button> 
 				      	</form>
@@ -67,6 +66,7 @@
     <script>
     	$(document).ready(function() {
     		var moduleOption = <%- JSON.stringify(moduleOption) %>;
+    		// var moduleInfo = <%- JSON.stringify(moduleInfo) %>;
     		console.log(moduleOption);
     		$.each(moduleOption, function(optionKey, properties){
     			
@@ -77,8 +77,6 @@
     				var selector = "moduleRequired";
     			}else if(optionAdvanced || optionRequired && !optionEvasion){
     				var selector = "moduleAdvanced";
-    			}else if(optionEvasion || optionRequired && !optionAdvanced){
-    				var selector = "moduleEvasion";
     			}
 
     			var optionDesc = properties.desc;
@@ -118,7 +116,6 @@
     			$("#"+selector).append(htmlInputFormat);
     			if('default' in properties){
     				var optionDefault = properties.default;
-    				console.log(optionKey + " has "+optionDefault+" to be a default");
     				if(optionType == "bool"){
     					if(optionDefault == true){
     						$("input[name='"+optionKey+"']").prop('checked',true);
@@ -129,9 +126,6 @@
     					$("input[name='"+optionKey+"']").val(optionDefault);
     				}
     			}
-    			$.each(properties, function(propertiesKey, propertiesData){
-    				// $("#"+selector).append("|-->" +propertiesKey + " : " + propertiesData + "</br>");
-    			})
     		})
     	})
     </script>

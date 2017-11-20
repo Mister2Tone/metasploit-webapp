@@ -83,9 +83,19 @@ router.get('/*/new', async(req,res) => {
 	})
 })
 
-router.post('/exploit_now', async(req,res) => {
+router.post('/*/exploit_now', async(req,res) => {
+	const modulePath = req.params[0]
 	const payload = req.body
-	res.send(payload)
+
+	var textPayload = ""
+	for(var prop in payload){
+		if(payload[prop])
+			textPayload += "set "+prop+" "+payload[prop]+"\n"
+	}
+	// console.log(textPayload)
+	workspaceApi.runExploit(modulePath,textPayload)
+	res.redirect('/modules/status')
+
 })
 
 router.get('/status', async(req,res) => {
