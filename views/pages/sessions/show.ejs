@@ -12,32 +12,31 @@
 		<div class="col-lg-12">
 	        <ol class="breadcrumb">
 	        	<li><a href="/">Metasploit App</a></li>
-	        	<li><a href="/modules">Modules</a></li>
-	        	<li class="active"><%= moduleInfo.name %></li>
+	        	<li><a href="/modules">Post Exploitation</a></li>
+	        	<li class="active"><%= postModuleInfo.name %></li>
 	        </ol>  
         </div>
 
         <div class="col-lg-12">
 	       <div class="well" id="module-info">
-	       	<h2><%= moduleInfo.name %><br><small><%= moduleInfo.description%></small></h2>
+	       		<h2><%= postModuleInfo.name %><br><small><%= postModuleInfo.description%></small></h2>
+			  <p><strong>Path:</strong> <%= postModuleInfo.fullname%></p>
 			  <p>
-				  <strong>Rank:</strong> <%= moduleInfo.rank%>
-				  <strong>Disclosure:</strong> <%= moduleInfo.disclosuredate%>
-				  <% var arch = moduleInfo.arch;
-				  	if(arch.length != 0){ %>
-				  	<strong>Arch:</strong> <span><%= moduleInfo.arch%></span>
+				  <strong>Rank:</strong> <%= postModuleInfo.rank%>
+				  <% var arch = postModuleInfo.arch; 
+				  	 if(arch.length != 0){ %>
+				  	<strong>Arch:</strong> <span><%= postModuleInfo.arch%></span>
 				  <% } %>
 				  <strong>Priviledged:</strong> 
-				  <% if(moduleInfo.priviledged){%>
+				  <% if(postModuleInfo.priviledged){%>
 				  		Yes
 				  <% }else { %>
 				  		No
 				  <% } %>
 			  </p>
-			  <p><strong>License:</strong> <%= moduleInfo.license%></p>
-			  <p><strong>Author:</strong> <%= moduleInfo.authors%></p>
-			  <p><strong>Ref:</strong> <%= moduleInfo.references%></p>
-			  <p><strong>Targets:</strong> <%- JSON.stringify(moduleInfo.targets)%></p>
+			  <p><strong>License:</strong> <%= postModuleInfo.license%></p>
+			  <p><strong>Author:</strong> <%= postModuleInfo.authors%></p>
+			  <p><strong>Ref:</strong> <%= postModuleInfo.references%></p>
 
 			</div>
 	    </div>
@@ -47,12 +46,13 @@
 			    <div class="panel panel-default" >
 			      	<div class="panel-heading">Customization</div>
 			      	<div class="panel-body">
-				      	<form action="/modules/<%= moduleInfo.fullname %>/exploit_now" method="post" id="moduleOption2Exploit">
+				      	<form action="/sessions/<%= postModuleInfo.fullname%>/run_now" method="post" id="postModuleOption2Run">
 				      		<h1>Form</h1>
-				      		<div class="well" id="moduleRequired"><h3>moduleRequired</h3></div>
-				      		<div class="well" id="moduleAdvanced"><h3>moduleAdvanced</h3></div>
+				      		<div class="well" id="postModuleRequired"><h3>postModuleRequired</h3></div>
+				      		<div class="well" id="postModuleOptional"><h3>postModuleOptional</h3></div>
+				      		<div class="well" id="postModuleAdvanced"><h3>postModuleAdvanced</h3></div>
 
-				      		<button type="submit" class="btn-lg btn-block btn-danger">Exploit</button> 
+				      		<button type="submit" class="btn-lg btn-block btn-success">Run</button> 
 				      	</form>
 			      	</div>	
 			    </div>
@@ -66,18 +66,20 @@
     </footer>
     <script>
     	$(document).ready(function() {
-    		var moduleOption = <%- JSON.stringify(moduleOption) %>;
-    		// var moduleInfo = <%- JSON.stringify(moduleInfo) %>;
-    		console.log(moduleOption);
-    		$.each(moduleOption, function(optionKey, properties){
+    		var postModuleOption = <%- JSON.stringify(postModuleOption) %>;
+    		// console.log(postModuleOption);
+ 
+    		$.each(postModuleOption, function(optionKey, properties){
     			
     			var optionRequired = properties.required;
     			var optionEvasion = properties.evasion;
     			var optionAdvanced = properties.advanced;
     			if(optionRequired && !optionAdvanced && !optionEvasion){
-    				var selector = "moduleRequired";
+    				var selector = "postModuleRequired";
     			}else if(optionAdvanced || optionRequired && !optionEvasion){
-    				var selector = "moduleAdvanced";
+    				var selector = "postModuleAdvanced";
+    			}else if(!optionRequired && !optionAdvanced && !optionEvasion){
+    				var selector = "postModuleOptional";
     			}
 
     			var optionDesc = properties.desc;
@@ -127,7 +129,10 @@
     					$("input[name='"+optionKey+"']").val(optionDefault);
     				}
     			}
-    		})
+    		})// end each
+    		if($("#postModuleOptional").children().length == 1){
+    			$("#postModuleOptional").hide();
+    		}
     	})
     </script>
 

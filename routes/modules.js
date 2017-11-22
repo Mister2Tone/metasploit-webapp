@@ -9,10 +9,12 @@ router.get('/', async(req,res) =>{
 	var modulesAll = await moduleApi.getExploitModules()
 					.then((result) => {
 						return result.modules
+					}).catch((err) => {
+						console.log(err)
 					})
 	var modules = {}
 
-	for(let i=0;i<modulesAll.length;i++){
+	for(var i in modulesAll){
 		modules[i] = await moduleApi.getModuleInfo('exploit',modulesAll[i])
 					.then( (result) => {
 						let buffer = {
@@ -93,7 +95,7 @@ router.post('/*/exploit_now', async(req,res) => {
 			textPayload += "set "+prop+" "+payload[prop]+"\n"
 	}
 	// console.log(textPayload)
-	workspaceApi.runExploit(modulePath,textPayload)
+	workspaceApi.runExploitInBackground(modulePath,textPayload)
 	res.redirect('/modules/status')
 
 })
@@ -112,7 +114,7 @@ router.get('/status/update', async(req,res) => {
 	var ticker = setInterval( () => {
 		workspaceApi.getMsfCommandDisplay().then((result) => {
 			data = result.data.split('\n').join('(newline)')
-			success = /Meterpreter session \d opened/.test(data)
+			success = /session \d opened/.test(data)
 			if(success){
 				clearInterval(ticker)
 			}

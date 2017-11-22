@@ -15,15 +15,43 @@
 	        	<li><a href="/sessions">Sessions</a></li>
 	        	<li class="active"><%= sessionId %></li>
 	        </ol>
-	        <form action="/sessions/<%= sessionId %>/post/reboot_now" method="post">
-	        	<button type="submit" class="btn btn-danger">Reboot</button>
-	        </form>
+	       
+	       <table class="table table-hover">
+	        	<thead>
+	        		<tr>
+		        		<th>#</th>
+		        		<th>Path</th>
+		        		<th>Name</th>
+		        		<th>Rank</th>
+		        	</tr>
+		        </thead>
+
+		        <tbody>
+		        	<% for(var Id in postModules) { count = Id%>
+		        	<tr>
+		        		<td><%= ++count %></td>
+		        		<td> <%= postModules[Id].fullname %> </td>
+		        		<td><a href="/sessions/<%= sessionId%>/<%= postModules[Id].fullname %>/new">
+		        			<%= postModules[Id].name%>
+		        			</a>
+		        		</td>
+		        		<td> <%= postModules[Id].rank %> </td>
+		        	</tr>
+		        	<% } %>
+	        	</tbody>
+	        </table>
         </div>
     </main>
 
     <footer>
         <% include ./partials/footer %>
     </footer>
+    <script>
+    	$(document).ready( function(){
+    		var postModules = <%- JSON.stringify(postModules) %>;
+    		console.log(postModules);
+    	})
+    </script>
 
 </body>
 </html>
