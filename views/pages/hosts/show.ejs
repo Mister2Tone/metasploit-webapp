@@ -68,13 +68,91 @@
 
 	        		<div class="tab-pane fade" role="tabpanel" id="sessions" aria-labelledby="sessions-tab">Session table</div>
 
-	        		<div class="tab-pane fade" role="tabpanel" id="vulnerabilities" aria-labelledby="vulnerabilities-tab">Vulnerabilities table</div>
+	        		<div class="tab-pane fade" role="tabpanel" id="vulnerabilities" aria-labelledby="vulnerabilities-tab">
+	        			<table class="table table-hover">
+				        	<thead>
+				        		<tr>
+				        		<th>#</th>
+				        		<th>Name</th>
+				        		<th>Host id</th>
+				        		<th>Attempt Count</th>
+				        		<th>Detail Count</th>
+				        		<th>Exploited at</th>
+					        	</tr>
+					        </thead>
+
+					        <tbody>
+					        	<% vulns.forEach(function(vuln) { %>
+					        	<tr>
+					        		<td><%= vuln.id %></td>
+					        		<td><%= vuln.name %></td>
+					        		<td><%= vuln.host_id %></td>
+					        		<td><%= vuln.vuln_attempt_count %></td>
+					        		<td><%= vuln.vuln_detail_count %></td>
+					        		<td><%= vuln.exploited_at %></td>
+					        	</tr>
+					        	<%	}) %>
+				        	</tbody>
+				        </table>
+	        		</div>
 
 	        		<div class="tab-pane fade" role="tabpanel" id="credentials" aria-labelledby="credentials-tab">Credentials table</div>
 
-	        		<div class="tab-pane fade" role="tabpanel" id="captured_data" aria-labelledby="captured_data-tab">Captured_data table</div>
+	        		<div class="tab-pane fade" role="tabpanel" id="captured_data" aria-labelledby="captured_data-tab">
+	        			<table class="table table-hover">
+				        	<thead>
+				        		<tr>
+				        		<th>#</th>
+				        		<th>Name</th>
+				        		<th>Content Type</th>
+				        		<th>Info</th>
+				        		<th>Loot Type</th>
+				        		<th>Path</th>
+				        		<th>Updated at</th>
+					        	</tr>
+					        </thead>
 
-	        		<div class="tab-pane fade" role="tabpanel" id="notes" aria-labelledby="notes-tab">Notes table</div>
+					        <tbody>
+					        	<% loots.forEach(function(loot) { %>
+					        	<tr>
+					        		<td><%= loot.id %></td>
+					        		<td><%= loot.name %></td>
+					        		<td><%= loot.content_type %></td>
+					        		<td><%= loot.info %></td>
+					        		<td><%= loot.ltype %></td>
+					        		<td><%= loot.path %></td>
+					        		<td><%= loot.updated_at %></td>
+					        	</tr>
+					        	<%	}) %>
+				        	</tbody>
+				        </table>
+
+	        		</div>
+
+	        		<div class="tab-pane fade" role="tabpanel" id="notes" aria-labelledby="notes-tab">
+	        			<table class="table table-hover">
+				        	<thead>
+				        		<tr>
+				        		<th>#</th>
+				        		<th>Type</th>
+				        		<th>Data</th>
+				        		<th>Updated at</th>
+					        	</tr>
+					        </thead>
+
+					        <tbody>
+					        	<% notes.forEach(function(note) { %>
+					        	<tr>
+					        		<td><%= note.id %></td>
+					        		<td><%= note.ntype %></td>
+					        		<td><%= note.data %></td>
+					        		<td><%= note.updated_at %></td>
+					        	</tr>
+					        	<%	}) %>
+				        	</tbody>
+				        </table>
+
+	        		</div>
 
 	        		<div class="tab-pane fade" role="tabpanel" id="file_shares" aria-labelledby="file_shares-tab">File_shares table</div>
 
@@ -89,6 +167,13 @@
     <footer>
         <% include ./partials/footer %>
     </footer>
-
+    <script>
+    	$(document).ready(function(){
+    		var vulns = <%- JSON.stringify(vulns)%>
+    		console.log(vulns);
+    		var notes = <%- JSON.stringify(notes)%>
+    		console.log(notes);
+    	})
+    </script>
 </body>
 </html>
