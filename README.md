@@ -126,3 +126,6 @@ We run web interface with Node.js after your download this repo via Git.
 node ./bin/www
 ```
 Open web browser and go to http://localhost:3000 then interface will appear.
+# THANKS
+https://www.darkoperator.com/installing-metasploit-in-ubunt/
+
