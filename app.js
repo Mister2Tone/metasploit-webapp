@@ -16,7 +16,7 @@ var sessions = require('./routes/sessions')
 var app = express();
 
 // view engine setup
-app.set('views', [__dirname + '/views', 
+app.set('views', [__dirname + '/views',
 				__dirname + '/view/workspaces',
         __dirname + '/view/hosts',
         __dirname + '/view/modules',
@@ -62,5 +62,12 @@ msfapi.initMsfConsole()
   }).catch( (err) => {
     console.log(err);
   })
+
+msfapi.keepTokenConsoleAlive()
+	.then( (res) => {
+		console.log(res);
+	}).catch( (err) => {
+		console.log(err);
+	})
 
 module.exports = app;
