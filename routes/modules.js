@@ -49,12 +49,13 @@ router.post('/', async(req,res) => {
 			modulesMatch[index] = modulesAll[i]
 			modules[index] = await moduleApi.getModuleInfo('exploit',modulesMatch[index])
 					.then( (result) => {
-						let buffer = {
-							name : result.name,
-							fullname : result.fullname,
-							rank : result.rank,
-							disclosuredate : result.disclosuredate
-						}
+						// let buffer = {
+						// 	name : result.name,
+						// 	fullname : result.fullname,
+						// 	rank : result.rank,
+						// 	disclosuredate : result.disclosuredate
+						// }
+						let buffer = result
 						return buffer
 					}) 
 			index++

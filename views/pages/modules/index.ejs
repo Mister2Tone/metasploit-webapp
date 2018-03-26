@@ -11,7 +11,7 @@
 	<main>
 		<div class="col-lg-12">
 	        <ol class="breadcrumb">
-	        	<li><a href="#">Metasploit App</a></li>
+	        	<li><a href="#">Metasploit App</a><i class="fas fa-star"></i></li>
 	        	<li class="active">Modules</li>
 	        </ol>
 	        <form action="/modules" method="post" class="form-inline" align="">
@@ -33,10 +33,14 @@
 
 		        <tbody>
 		        	<% for(var Id in modules) { count = Id%>
-		        	<tr>
+		        	<tr class="module-<%=Id %>">
 		        		<td><%= ++count %></td>
 		        		<td> <%= modules[Id].disclosuredate %> </td>
-		        		<td> <%= modules[Id].rank %> </td>
+		        		<td>
+							<div class="stars-outer">
+								<div class="stars-inner"></div>
+							</div>
+						</td>
 		        		<td><a href="/modules/<%= modules[Id].fullname %>/new">
 		        			<%= modules[Id].name%>
 		        			</a>
@@ -52,6 +56,43 @@
     <footer>
         <% include ./partials/footer %>
     </footer>
+
+	<script>
+		$(document).ready( function () {
+            var modules = <%- JSON.stringify(modules) %>;
+            console.log(modules);
+            $.each(modules, function(i, properties){
+				//console.log("key="+i+",prop="+properties.rank);
+                var moduleRank = properties.rank;
+                var moduleRankPoint;
+                if(moduleRank == "manual"){
+                    moduleRankPoint = 0;
+                }else if(moduleRank == "low"){
+                    moduleRankPoint = 1;
+                }else if(moduleRank == "average"){
+                    moduleRankPoint = 2;
+                }else if(moduleRank == "normal"){
+                    moduleRankPoint = 3;
+                }else if(moduleRank == "good"){
+                    moduleRankPoint = 4;
+                }else if(moduleRank == "great"){
+                    moduleRankPoint = 5;
+                }else if(moduleRank == "excellent"){
+                    moduleRankPoint = 6;
+                }else  moduleRankPoint = null;
+                //console.log("key:"+i+",point="+moduleRankPoint);
+				var starPercentage = (moduleRankPoint/6) * 100;
+				//console.log(i+" : "+starPercentage);
+				var starPercentageRounded = `${Math.round(starPercentage / 10)*10}%`;
+				//console.log(i+" rounded : "+starPercentageRounded);
+				var classModule = "module-"+i;
+				$("."+classModule).find(".stars-inner").css("width", starPercentageRounded);
+
+			})
+        })
+
+
+	</script>
 
 </body>
 </html>
