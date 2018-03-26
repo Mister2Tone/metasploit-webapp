@@ -37,9 +37,11 @@
 		        		<td><%= ++count %></td>
 		        		<td> <%= modules[Id].disclosuredate %> </td>
 		        		<td>
-							<div class="stars-outer">
-								<div class="stars-inner"></div>
-							</div>
+                            <a data-toggle="tooltip" data-placement="top" title="<%=modules[Id].rank%>">
+                                <div class="stars-outer">
+                                    <div class="stars-inner"></div>
+                                </div>
+                            </a>
 						</td>
 		        		<td><a href="/modules/<%= modules[Id].fullname %>/new">
 		        			<%= modules[Id].name%>
@@ -59,10 +61,10 @@
 
 	<script>
 		$(document).ready( function () {
+            $('[data-toggle="tooltip"]').tooltip();
+
             var modules = <%- JSON.stringify(modules) %>;
-            console.log(modules);
             $.each(modules, function(i, properties){
-				//console.log("key="+i+",prop="+properties.rank);
                 var moduleRank = properties.rank;
                 var moduleRankPoint;
                 if(moduleRank == "manual"){
@@ -80,11 +82,9 @@
                 }else if(moduleRank == "excellent"){
                     moduleRankPoint = 6;
                 }else  moduleRankPoint = null;
-                //console.log("key:"+i+",point="+moduleRankPoint);
+
 				var starPercentage = (moduleRankPoint/6) * 100;
-				//console.log(i+" : "+starPercentage);
 				var starPercentageRounded = `${Math.round(starPercentage / 10)*10}%`;
-				//console.log(i+" rounded : "+starPercentageRounded);
 				var classModule = "module-"+i;
 				$("."+classModule).find(".stars-inner").css("width", starPercentageRounded);
 
