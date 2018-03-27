@@ -40,13 +40,13 @@
 	        			<table class="table table-hover">
 				        	<thead>
 				        		<tr>
-				        		<th>#</th>
-				        		<th>Name</th>
-				        		<th>Port</th>
-				        		<th>Protocol</th>
-				        		<th>State</th>
-				        		<th>Updated at</th>
-				        		<th>Info</th>
+									<th>#</th>
+									<th>Name</th>
+									<th>Info</th>
+									<th>Port</th>
+									<th>Protocol</th>
+									<th>State</th>
+									<th>Updated at</th>
 					        	</tr>
 					        </thead>
 
@@ -55,11 +55,11 @@
 					        	<tr>
 					        		<td><%= service.id %></td>
 					        		<td><%= service.name %></td>
+									<td><%= service.info %></td>
 					        		<td><%= service.port %></td>
 					        		<td><%= service.proto %></td>
 					        		<td><%= service.state %></td>
-					        		<td><%= service.updated_at %></td>
-					        		<td><%= service.info %></td>
+					        		<td><%= service.updated_at.toLocaleString() %></td>
 					        	</tr>
 					        	<%	}) %>
 				        	</tbody>
@@ -103,11 +103,10 @@
 				        	<thead>
 				        		<tr>
 				        		<th>#</th>
+									<th>Loot Type</th>
 				        		<th>Name</th>
 				        		<th>Content Type</th>
 				        		<th>Info</th>
-				        		<th>Loot Type</th>
-				        		<th>Path</th>
 				        		<th>Updated at</th>
 					        	</tr>
 					        </thead>
@@ -116,12 +115,11 @@
 					        	<% loots.forEach(function(loot) { %>
 					        	<tr>
 					        		<td><%= loot.id %></td>
+									<td><%= loot.ltype %></td>
 					        		<td><%= loot.name %></td>
 					        		<td><%= loot.content_type %></td>
 					        		<td><%= loot.info %></td>
-					        		<td><%= loot.ltype %></td>
-					        		<td><%= loot.path %></td>
-					        		<td><%= loot.updated_at %></td>
+					        		<td><%= loot.updated_at.toLocaleString() %></td>
 					        	</tr>
 					        	<%	}) %>
 				        	</tbody>
@@ -135,7 +133,6 @@
 				        		<tr>
 				        		<th>#</th>
 				        		<th>Type</th>
-				        		<th>Data</th>
 				        		<th>Updated at</th>
 					        	</tr>
 					        </thead>
@@ -145,8 +142,7 @@
 					        	<tr>
 					        		<td><%= note.id %></td>
 					        		<td><%= note.ntype %></td>
-					        		<td><%= note.data %></td>
-					        		<td><%= note.updated_at %></td>
+					        		<td><%= note.updated_at.toLocaleString() %></td>
 					        	</tr>
 					        	<%	}) %>
 				        	</tbody>
