@@ -133,6 +133,8 @@
     		if($("#postModuleOptional").children().length == 1){
     			$("#postModuleOptional").hide();
     		}
+    		var sessionId = <%- JSON.stringify(sessionId)%>;
+    		$("input[name='SESSION']").val(sessionId);
     	})
     </script>
 
