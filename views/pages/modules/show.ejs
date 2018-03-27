@@ -50,9 +50,12 @@
 				      	<form action="/modules/<%= moduleInfo.fullname %>/exploit_now" method="post" id="moduleOption2Exploit">
 				      		<h1>Form</h1>
 				      		<div class="well" id="moduleRequired"><h3>moduleRequired</h3></div>
+							<button id="showAdvanced" type="button" class="btn btn-default" data-toggle="button" aria-pressed="false" autocomplete="off">
+								Show Advanced</button>
+							</br>
 				      		<div class="well" id="moduleAdvanced"><h3>moduleAdvanced</h3></div>
 
-				      		<button type="submit" class="btn-lg btn-block btn-danger">Exploit</button> 
+				      		<button type="submit" class="btn-lg btn-block btn-danger" style="margin-top:2em">Exploit</button>
 				      	</form>
 			      	</div>	
 			    </div>
@@ -66,9 +69,15 @@
     </footer>
     <script>
     	$(document).ready(function() {
+    	    $("#moduleAdvanced").hide();
+    	    $("#showAdvanced").click(function(){
+    	        $("#moduleAdvanced").toggle("slow");
+    	        $(this).toggleClass("btn-primary");
+			})
+
     		var moduleOption = <%- JSON.stringify(moduleOption) %>;
     		// var moduleInfo = <%- JSON.stringify(moduleInfo) %>;
-    		console.log(moduleOption);
+    		//console.log(moduleOption);
     		$.each(moduleOption, function(optionKey, properties){
     			
     			var optionRequired = properties.required;
