@@ -20,7 +20,7 @@
 	        		<h3 class="panel-title">Information Gathering</h3>
 	        	</div>
 	        	<div class="panel-body">
-	        		<a href="/workspaces/<%= workspace.id %>/hosts">Hosts</a>
+	        		<a href="/workspaces/<%= workspace.id %>/hosts"><span id="hostsQuantity"></span> Hosts</a>
 	        	</div>
 	        	<div class="panel-footer">
 	        		<form action="<%=workspace.id%>/tasks/new_scan" method="post">
@@ -36,6 +36,17 @@
 	<footer>
 		<% include ./partials/footer %>
 	</footer>
+
+	<script>
+		const workspace = <%- JSON.stringify(workspace)%>
+        var source = new EventSource('/workspaces/'+workspace.id+'/getHostsQuantity');
+        source.onmessage = function(e) {
+			data = e.data;
+            document.getElementById("hostsQuantity").innerHTML += data;
+			source.close();
+        }
+        console.log(source)
+	</script>
 
 </body>
 </html>
