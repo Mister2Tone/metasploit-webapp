@@ -21,6 +21,7 @@
 	        	</div>
 	        	<div class="panel-body">
 	        		<a href="/workspaces/<%= workspace.id %>/hosts"><span id="hostsQuantity"></span> Hosts</a>
+					<p><span id="servicesQuantity"></span> Services</p>
 	        	</div>
 	        	<div class="panel-footer">
 	        		<form action="<%=workspace.id%>/tasks/new_scan" method="post">
@@ -39,13 +40,19 @@
 
 	<script>
 		const workspace = <%- JSON.stringify(workspace)%>
-        var source = new EventSource('/workspaces/'+workspace.id+'/getHostsQuantity');
-        source.onmessage = function(e) {
+        var sourceHosts = new EventSource('/workspaces/'+workspace.id+'/getHostsQuantity');
+        sourceHosts.onmessage = function(e) {
 			data = e.data;
             document.getElementById("hostsQuantity").innerHTML += data;
-			source.close();
+			sourceHosts.close();
         }
-        console.log(source)
+
+        var sourceServices = new EventSource('/workspaces/'+workspace.id+'/getServicesQuantity');
+        sourceServices.onmessage = function(e) {
+            data = e.data;
+            document.getElementById("servicesQuantity").innerHTML = data;
+            sourceServices.close();
+		}
 	</script>
 
 </body>

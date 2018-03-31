@@ -118,20 +118,32 @@ router.get('/tasks/update', async(req,res) => {
 })
 
 router.get('/:id/getHostsQuantity', async(req,res) => {
-    const data = [req.params.id ]
+    const params = [req.params.id ]
     const text = 'SELECT COUNT(*) FROM hosts WHERE workspace_id=($1)'
-    const { rows } = await db.query(text, data)
+    const { rows } = await db.query(text, params)
 
     res.writeHead(200, {
         'Content-Type' : 'text/event-stream',
         'Cache-Control' : 'no-cache',
         'Connection' : 'keep-alive'
     })
-
-    var ticker = await setInterval( () => {
     	var data = rows[0].count
         res.write('data: ' + data + '\n\n')
-    },2000)
+})
+
+router.get('/:id/getServicesQuantity', async(req,res) => {
+	const params = [req.params.id]
+	const text = 'SELECT COUNT(id) FROM services WHERE host_id IN (SELECT id FROM hosts WHERE workspace_id = ($1))'
+	const { rows } = await  db.query(text, params)
+
+    res.writeHead(200, {
+        'Content-Type' : 'text/event-stream',
+        'Cache-Control' : 'no-cache',
+        'Connection' : 'keep-alive'
+    })
+    var data = rows[0].count
+    res.write('data: ' + data + '\n\n')
+
 })
 
 module.exports = router
