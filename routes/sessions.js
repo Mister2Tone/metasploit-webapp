@@ -11,7 +11,7 @@ router.get('/', async(req,res) => {
 	await sessionApi.listSessionActive()
 		.then( (result) => {
 			sessions = result
-			console.log(sessions);
+			//console.log(sessions);
 		}).catch( (err) => {
 			console.log(err);
 		})
@@ -102,11 +102,11 @@ router.get('/status/update', async(req,res) => {
 	var ticker = setInterval( () => {
 		workspaceApi.getMsfCommandDisplay().then((result) => {
 			data = result.data.split('\n').join('(newline)')
-			success = /Post module execution completed/.test(data)
-			if(success){
-				clearInterval(ticker)
-			}
 			res.write('data: ' + data + '\n\n')
+            success = /Post module execution completed/.test(data)
+            if(success){
+                clearInterval(ticker)
+            }
 		})
 	},5000)
 

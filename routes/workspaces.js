@@ -146,4 +146,27 @@ router.get('/:id/getServicesQuantity', async(req,res) => {
 
 })
 
+router.get('/:id/getSessionQuantity', async(req,res) => {
+    var sessions = {}
+    var count=0
+    await sessionApi.listSessionActive()
+        .then( (result) => {
+            sessions = result
+            for(var Id in sessions){
+                if(Id != null)
+                    count++
+            }
+        })
+	var data = sessions;
+    data = count;
+
+    res.writeHead(200, {
+        'Content-Type' : 'text/event-stream',
+        'Cache-Control' : 'no-cache',
+        'Connection' : 'keep-alive'
+    })
+    res.write('data: ' + data + '\n\n')
+
+})
+
 module.exports = router
