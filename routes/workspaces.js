@@ -108,13 +108,33 @@ router.get('/tasks/update', async(req,res) => {
 	var ticker = setInterval( () => {
 		workspaceApi.getMsfCommandDisplay().then((result) => {
 			data = result.data.split('\n').join('(newline)')
-			success = /OS and Service detection performed./.test(data)
+			success = /Nmap done/.test(data)
 			if(success){
 				clearInterval(ticker)
 			}
 			res.write('data: ' + data + '\n\n')
 		})
 	},5000)
+})
+
+router.get('/:id/cleanSessions', async(req,res) => {
+	var workspaceId = req.params.id;
+	var sessions = {}
+	sessions = await sessionApi.listSessionActive()
+		.then( (result) => {
+			return result
+		})
+	for(sessionId in sessions){
+		//console.log("Id: "+Id)
+		sessionApi.stopSessionActive(sessionId)
+			.then( (result) => {
+				console.log(result)
+			}).catch( (err) => {
+				console.log(err)
+		})
+	}
+    res.redirect('/workspaces/'+workspaceId);
+
 })
 
 router.get('/:id/getHostsQuantity', async(req,res) => {

@@ -33,21 +33,59 @@
 
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<h3 class="panel-title">Clean-up</h3>
+					<h3 class="panel-title">Clean-up the session</h3>
 				</div>
 				<div class="panel-body">
 					<a href="/sessions"><span id="sessionsQuantity"></span> Sessions</a>
 				</div>
+				<div class="panel-footer">
+					<button type="button" class="btn btn-default" id="cleanSessionsBtn">Clean...</button>
+				</div>
 			</div>
 
 	    </div>
+		<div class="modal fade" id="cleanSessionsModal" tabindex="-1" role="dialog" aria-labelledby="cleanSessionsLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Clean-up Alert</h4>
+					</div>
+					<div class="modal-body">
+						<p><span id="cleanSessionModalText"></span></p>
+					</div>
+					<div class="modal-footer">
+						<form class="form-inline" action="<%=workspace.id%>/cleanSessions" method="get">
+							<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+							<button type="submit" class="btn btn-danger">Yes</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 	</main>
 
 	<footer>
 		<% include ./partials/footer %>
 	</footer>
 
+
 	<script>
+		var enableCleanSession = null;
+        $(document).ready(function(){
+            $("#cleanSessionsBtn").click(function(){
+                console.log(enableCleanSession)
+                if(enableCleanSession){
+                    text = "Are you sure to DELETE the session ?";
+				}else{
+                    text = "You do not have any session. Please exploit to get the session.";
+					$(".modal-footer").css("display","none");
+				}
+                $("#cleanSessionModalText").text(text);
+                $("#cleanSessionsModal").modal();
+            });
+        });
+
 		const workspace = <%- JSON.stringify(workspace)%>
         var sourceHosts = new EventSource('/workspaces/'+workspace.id+'/getHostsQuantity');
         sourceHosts.onmessage = function(e) {
@@ -66,6 +104,10 @@
         var sourceSessions = new EventSource('/workspaces/'+workspace.id+'/getSessionQuantity');
         sourceSessions.onmessage = function(e) {
             data = e.data;
+            if(data == 0)
+                enableCleanSession = false
+			else
+				enableCleanSession = true
             document.getElementById("sessionsQuantity").innerHTML = data;
             sourceSessions.close();
         }
