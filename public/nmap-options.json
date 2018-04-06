@@ -1,0 +1,490 @@
+{
+  "options": {
+    "-iR" : {
+      "type" : "integer",
+      "description" : "Choose random targets",
+      "usage" : "num hosts",
+      "category" : "target_specification"
+    },
+    "--exclude" : {
+      "type" : "text",
+      "description" : "Exclude hosts/networks",
+      "usage" : "host1[,host2][,host3],...",
+      "category" : "target_specification"
+    },
+    "-sL" : {
+      "type" : "bool",
+      "description" : "List Scan - simply list targets to scan",
+      "usage" : null,
+      "category" : "host_discovery"
+    },
+    "-sn" : {
+      "type" : "bool",
+      "description" : "Ping Scan - disable port scan",
+      "usage" : null,
+      "category" : "host_discovery"
+    },
+    "-Pn" : {
+      "type" : "bool",
+      "description" : "Treat all hosts as online -- skip host discovery",
+      "usage" : null,
+      "category" : "host_discovery"
+    },
+    "-PS" : {
+      "type" : "text",
+      "description" : "TCP SYN discovery to given ports",
+      "usage" : "port list",
+      "category" : "host_discovery"
+    },
+    "-PA" : {
+      "type" : "text",
+      "description" : "TCP ACK discovery to given ports",
+      "usage" : "port list",
+      "category" : "host_discovery"
+    },
+    "-PU" : {
+      "type" : "text",
+      "description" : "UDP discovery to given ports",
+      "usage" : "port list",
+      "category" : "host_discovery"
+    },
+    "-PY" : {
+      "type" : "text",
+      "description" : "SCTP discovery to given ports",
+      "usage" : "port list",
+      "category" : "host_discovery"
+    },
+    "-PE" : {
+      "type" : "bool",
+      "description" : "ICMP echo request discovery probes",
+      "usage" : null,
+      "category" : "host_discovery"
+    },
+    "-PP" : {
+      "type" : "bool",
+      "description" : "timestamp request discovery probes",
+      "usage" : null,
+      "category" : "host_discovery"
+    },
+    "-PM" : {
+      "type" : "bool",
+      "description" : "netmask request discovery probes",
+      "usage" : null,
+      "category" : "host_discovery"
+    },
+    "-PO" : {
+      "type" : "text",
+      "description" : "IP Protocol Ping",
+      "usage" : "protocol list",
+      "category" : "host_discovery"
+    },
+    "-n" : {
+      "type" : "bool",
+      "description" : "Never do DNS resolution",
+      "usage" : null,
+      "category" : "host_discovery"
+    },
+    "-R" : {
+      "type" : "bool",
+      "description" : "Always resolve DNS",
+      "usage" : null,
+      "category" : "host_discovery"
+    },
+    "--dns-servers" : {
+      "type" : "text",
+      "description" : "Specify custom DNS servers",
+      "usage" : "serv1[,serv2],...",
+      "category" : "host_discovery"
+    },
+    "--system-dns" : {
+      "type" : "bool",
+      "description" : "Use OS's DNS resolver",
+      "usage" : null,
+      "category" : "host_discovery"
+    },
+    "--traceroute" : {
+      "type" : "bool",
+      "description" : "Trace hop path to each host",
+      "usage" : null,
+      "category" : "host_discovery"
+    },
+    "-sS" : {
+      "type" : "bool",
+      "description" : "TCP SYN scans",
+      "usage" : null,
+      "category" : "scan_techniques"
+    },
+    "-sT" : {
+      "type" : "bool",
+      "description" : "TCP connect scans",
+      "usage" : null,
+      "category" : "scan_techniques"
+    },
+    "-sA" : {
+      "type" : "bool",
+      "description" : "TCP ACK scans",
+      "usage" : null,
+      "category" : "scan_techniques"
+    },
+    "-sW" : {
+      "type" : "bool",
+      "description" : "TCP Window scans",
+      "usage" : null,
+      "category" : "scan_techniques"
+    },
+    "-sM" : {
+      "type" : "bool",
+      "description" : "TCP Maimon scans",
+      "usage" : null,
+      "category" : "scan_techniques"
+    },
+    "-sU" : {
+      "type" : "bool",
+      "description" : "UDP scans",
+      "usage" : null,
+      "category" : "scan_techniques"
+    },
+    "-sN" : {
+      "type" : "bool",
+      "description" : "TCP Null scans",
+      "usage" : null,
+      "category" : "scan_techniques"
+    },
+    "-sF" : {
+      "type" : "bool",
+      "description" : "TCP FIN scans",
+      "usage" : null,
+      "category" : "scan_techniques"
+    },
+    "-sX" : {
+      "type" : "bool",
+      "description" : "TCP Xmas scans",
+      "usage" : null,
+      "category" : "scan_techniques"
+    },
+    "--scanflags" : {
+      "type" : "text",
+      "description" : "Customize TCP scan flags",
+      "usage" : "flags",
+      "category" : "scan_techniques"
+    },
+    "-sI" : {
+      "type" : "text",
+      "description" : "Idle scan",
+      "usage" : "zombie host[:probeport]",
+      "category" : "scan_techniques"
+    },
+    "-sY" : {
+      "type" : "bool",
+      "description" : "SCTP INIT scans",
+      "usage" : null,
+      "category" : "scan_techniques"
+    },
+    "-sZ" : {
+      "type" : "bool",
+      "description" : "COOKIE-ECHO scans",
+      "usage" : null,
+      "category" : "scan_techniques"
+    },
+    "-sO" : {
+      "type" : "bool",
+      "description" : "IP protocol scan",
+      "usage" : null,
+      "category" : "scan_techniques"
+    },
+    "-b" : {
+      "type" : "text",
+      "description" : "FTP bounce scans",
+      "usage" : "FTP relay host",
+      "category" : "scan_techniques"
+    },
+    "-p" : {
+      "type" : "text",
+      "description" : "Only scan specified ports",
+      "usage" : "<port ranges> ex. 22; 1-65535; U:53,111,137,T:21-25,80,139,8080,S:9",
+      "category" : "port-specification_scan-order"
+    },
+    "--exclude-ports" : {
+      "type" : "text",
+      "description" : "Exclude the specified ports from scanning",
+      "usage" : "<port ranges> [0-255]",
+      "category" : "port-specification_scan-order"
+    },
+    "-F" : {
+      "type" : "bool",
+      "description" : "Fast mode - Scan fewer ports than the default scan",
+      "usage" : null,
+      "category" : "port-specification_scan-order"
+    },
+    "-r" : {
+      "type" : "bool",
+      "description" : "Scan ports consecutively - don't randomize",
+      "usage" : null,
+      "category" : "port-specification_scan-order"
+    },
+    "--top-ports" : {
+      "type" : "integer",
+      "description" : "Scan <number> most common ports",
+      "usage" : "<number>",
+      "category" : "port-specification_scan-order"
+    },
+    "--port-ratio" : {
+      "type" : "float",
+      "description" : "Scan ports more common than <ratio>",
+      "usage" : "decimal number between 0.0 and 1.0",
+      "category" : "port-specification_scan-order"
+    },
+    "-sV" : {
+      "type" : "bool",
+      "description" : "Probe open ports to determine service/version info",
+      "usage" : null,
+      "category" : "service-version_detection"
+    },
+    "--version-intensity" : {
+      "type" : "integer",
+      "description" : "<level>: Set from 0 (light) to 9 (try all probes)",
+      "usage" : "0-9",
+      "category" : "service-version_detection"
+    },
+    "--version-light" : {
+      "type" : "bool",
+      "description" : "Limit to most likely probes (intensity 2)",
+      "usage" : null,
+      "category" : "service-version_detection"
+    },
+    "--version-all" : {
+      "type" : "bool",
+      "description" : "Try every single probe (intensity 9)",
+      "usage" : null,
+      "category" : "service-version_detection"
+    },
+    "--version-trace" : {
+      "type" : "bool",
+      "description" : "Show detailed version scan activity (for debugging)",
+      "usage" : null,
+      "category" : "service-version_detection"
+    },
+    "-O" : {
+      "type" : "bool",
+      "description" : "Enable OS detection",
+      "usage" : null,
+      "category" : "os_detection"
+    },
+    "--osscan-limit" : {
+      "type" : "bool",
+      "description" : "Limit OS detection to promising targets",
+      "usage" : null,
+      "category" : "os_detection"
+    },
+    "--osscan-guess" : {
+      "type" : "bool",
+      "description" : "Guess OS more aggressively",
+      "usage" : null,
+      "category" : "os_detection"
+    },
+    "-T" : {
+      "type" : "integer",
+      "description" : " Set timing template (higher is faster)",
+      "usage" : "0-5",
+      "category" : "timing_performance"
+    },
+    "--min-hostgroup" : {
+      "type" : "integer",
+      "description" : "Maximum parallel host scan group sizes",
+      "usage" : "<size>",
+      "category" : "timing_performance"
+    },
+    "--max-hostgroup" : {
+      "type" : "integer",
+      "description" : "Minimum parallel host scan group sizes",
+      "usage" : "<size>",
+      "category" : "timing_performance"
+    },
+    "--min-parallelism" : {
+      "type" : "integer",
+      "description" : "Minimum probe parallelization",
+      "usage" : "<numprobes>",
+      "category" : "timing_performance"
+    },
+    "--max-parallelism" : {
+      "type" : "integer",
+      "description" : "Maximum probe parallelization",
+      "usage" : "<numprobes>",
+      "category" : "timing_performance"
+    },
+    "--min-rtt-timeout" : {
+      "type" : "integer",
+      "description" : "Specifies minimum probe round trip time",
+      "usage" : "<time>",
+      "category" : "timing_performance"
+    },
+    "--max-rtt-timeout" : {
+      "type" : "integer",
+      "description" : "Specifies maximum probe round trip time",
+      "usage" : "<time>",
+      "category" : "timing_performance"
+    },
+    "--initial-rtt-timeout" : {
+      "type" : "integer",
+      "description" : "Specifies initial probe round trip time",
+      "usage" : "<time>",
+      "category" : "timing_performance"
+    },
+    "--max-retries" : {
+      "type" : "integer",
+      "description" : "Caps number of port scan probe retransmissions",
+      "usage" : "<tries>",
+      "category" : "timing_performance"
+    },
+    "--host-timeout" : {
+      "type" : "integer",
+      "description" : "Give up on target after this long",
+      "usage" : "<time>",
+      "category" : "timing_performance"
+    },
+    "--scan-delay" : {
+      "type" : "integer",
+      "description" : "Adjust delay between probes",
+      "usage" : "<time>",
+      "category" : "timing_performance"
+    },
+    "--max-scan-delay" : {
+      "type" : "integer",
+      "description" : "Adjust maximum delay between probes",
+      "usage" : "<time>",
+      "category" : "timing_performance"
+    },
+    "--min-rate" : {
+      "type" : "integer",
+      "description" : "Send packets no slower than <number> per second",
+      "usage" : "<time>",
+      "category" : "timing_performance"
+    },
+    "--max-rate" : {
+      "type" : "integer",
+      "description" : "Send packets no faster than <number> per second",
+      "usage" : "<number>",
+      "category" : "timing_performance"
+    },
+    "-f" : {
+      "type" : "bool",
+      "description" : "fragment packets",
+      "usage" : null,
+      "category" : "firewall-ids-evasion_spoofing"
+    },
+    "--mtu" : {
+      "type" : "integer",
+      "description" : "optionally w/given MTU",
+      "usage" : "<val>",
+      "category" : "firewall-ids-evasion_spoofing"
+    },
+    "-D" : {
+      "type" : "text",
+      "description" : "Cloak a scan with decoys",
+      "usage" : "<decoy1,decoy2[,ME],...>",
+      "category" : "firewall-ids-evasion_spoofing"
+    },
+    "-S" : {
+      "type" : "text",
+      "description" : "Spoof source address",
+      "usage" : "<IP_Address>",
+      "category" : "firewall-ids-evasion_spoofing"
+    },
+    "-e" : {
+      "type" : "text",
+      "description" : "Use specified interface",
+      "usage" : "<iface>",
+      "category" : "firewall-ids-evasion_spoofing"
+    },
+    "-g" : {
+      "type" : "integer",
+      "description" : "Use given port number",
+      "usage" : "<portnum>",
+      "category" : "firewall-ids-evasion_spoofing"
+    },
+    "--proxies" : {
+      "type" : "text",
+      "description" : "Relay connections through HTTP/SOCKS4 proxies",
+      "usage" : "<url1,[url2],...>",
+      "category" : "firewall-ids-evasion_spoofing"
+    },
+    "--data" : {
+      "type" : "text",
+      "description" : "Append a custom payload to sent packets",
+      "usage" : "<hex string>",
+      "category" : "firewall-ids-evasion_spoofing"
+    },
+    "--data-string" : {
+      "type" : "text",
+      "description" : "Append a custom ASCII string to sent packets",
+      "usage" : "<string>",
+      "category" : "firewall-ids-evasion_spoofing"
+    },
+    "--data-length" : {
+      "type" : "integer",
+      "description" : "Append random data to sent packets",
+      "usage" : "<num>",
+      "category" : "firewall-ids-evasion_spoofing"
+    },
+    "--ip-options" : {
+      "type" : "text",
+      "description" : "Send packets with specified ip options",
+      "usage" : "<options>",
+      "category" : "firewall-ids-evasion_spoofing"
+    },
+    "--ttl" : {
+      "type" : "integer",
+      "description" : "Set IP time-to-live field",
+      "usage" : "<val>",
+      "category" : "firewall-ids-evasion_spoofing"
+    },
+    "--spoof-mac" : {
+      "type" : "text",
+      "description" : "Spoof your MAC address",
+      "usage" : "<mac address/prefix/vendor name>",
+      "category" : "firewall-ids-evasion_spoofing"
+    },
+    "--badsum" : {
+      "type" : "text",
+      "description" : "Send packets with a bogus TCP/UDP/SCTP checksum",
+      "usage" : "",
+      "category" : "firewall-ids-evasion_spoofing"
+    },
+    "-6" : {
+      "type" : "bool",
+      "description" : "Enable IPv6 scanning",
+      "usage" : null,
+      "category" : "misc"
+    },
+    "-A" : {
+      "type" : "bool",
+      "description" : "Enable OS detection, version detection, script scanning, and traceroute",
+      "usage" : null,
+      "category" : "misc"
+    },
+    "--send-eth" : {
+      "type" : "bool",
+      "description" : "Send using raw ethernet frames",
+      "usage" : null,
+      "category" : "misc"
+    },
+    "--send-ip" : {
+      "type" : "bool",
+      "description" : "Send using IP packets",
+      "usage" : null,
+      "category" : "misc"
+    },
+    "--privileged" : {
+      "type" : "bool",
+      "description" : "Assume that the user is fully privileged",
+      "usage" : null,
+      "category" : "misc"
+    },
+    "--unprivileged" : {
+      "type" : "bool",
+      "description" : "Assume the user lacks raw socket privileges",
+      "usage" : null,
+      "category" : "misc"
+    }
+  }
+}

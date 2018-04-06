@@ -35,7 +35,7 @@
 	    	if(e.data !== ''){
 	    		data = e.data.split('(newline)').join('\n');
 	      		document.getElementById("taskLogs").innerHTML += data + '<br>';
-	      		success = /OS and Service detection performed./.test(data);
+	      		success = /Nmap done/.test(data);
 	      		if(success){
 	      			document.getElementById("taskStatus").innerHTML = 'Success!'
 	      			source.close()

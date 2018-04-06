@@ -4,9 +4,9 @@ const moduleApi = require('../lib/modules.js')
 const sessionApi = require('../lib/sessions.js')
 const jobApi = require('../lib/jobs.js')
 const db = require('../db')
+const nmapOptions = require('../public/nmap-options.json');
 
 const router = new Router()
-
 
 router.get('/new', function(req, res, next) {
 	res.render('pages/workspaces/create')
@@ -81,15 +81,37 @@ router.post('/:id/tasks/new_scan', async(req,res) => {
 		name : req.body.workspaceName 
 	}
 	res.render('pages/workspaces/new_scan', {
-		workspace
+		workspace,
+		nmapOptions
 	})
 })
 
 router.post('/:id/tasks/scan_now', async(req,res) => {
 	const targetIp = req.body.targetIp
 	const id = req.params.id
+	const requests = req.body;
+	var optionsPayload = {}
 
-	workspaceApi.scanHostsWithNmap(targetIp)
+	for(var prop in requests){
+		if(prop == "targetIp") continue;
+		else
+			if(requests[prop] === 'true' && requests[prop])
+				optionsPayload[prop] = Boolean(requests[prop]);
+			else if(requests[prop])
+                optionsPayload[prop] = requests[prop];
+			else continue;
+	}
+
+	var textOptions = "";
+	for(var propX in optionsPayload){
+		if(typeof(optionsPayload[propX]) == "boolean")
+			textOptions += propX;
+		else
+			textOptions += (propX+" "+optionsPayload[propX]);
+		textOptions += " ";
+	}
+
+	workspaceApi.scanHostsWithNmap(targetIp, textOptions)
 	res.redirect('/workspaces/tasks/status')
 })
 

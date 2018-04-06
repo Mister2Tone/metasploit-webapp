@@ -21,7 +21,97 @@
 	        		<input type="text" class="form-control" name="targetIp" placeholder="Target IP address">
 	        	</div>
 
-	        	<button type="submit" class="btn btn-success pull-right">Launch</button>
+				<div class="panel panel-default" id="target_specification">
+					<div class="panel-heading">
+						<h3 class="panel-title">Target Specification
+							<span class="pull-right"><button type="button" id="show_target_specification"><i class="fas fa-plus-circle"></i></button></span>
+						</h3>
+					</div>
+					<div class="panel-body">
+					</div>
+				</div>
+
+				<div class="panel panel-default" id="host_discovery">
+					<div class="panel-heading">
+						<h3 class="panel-title">Host Discovery
+							<span class="pull-right"><button type="button" id="show_host_discovery"><i class="fas fa-plus-circle"></i></button></span>
+						</h3>
+					</div>
+					<div class="panel-body">
+					</div>
+				</div>
+
+				<div class="panel panel-default" id="scan_techniques">
+					<div class="panel-heading">
+						<h3 class="panel-title">Scan Techniques
+							<span class="pull-right"><button type="button" id="show_scan_techniques"><i class="fas fa-plus-circle"></i></button></span>
+						</h3>
+					</div>
+					<div class="panel-body">
+					</div>
+				</div>
+
+				<div class="panel panel-default" id="port-specification_scan-order">
+					<div class="panel-heading">
+						<h3 class="panel-title">Port specification and Scan order
+							<span class="pull-right"><button type="button" id="show_port-specification_scan-order"><i class="fas fa-plus-circle"></i></button></span>
+						</h3>
+					</div>
+					<div class="panel-body">
+					</div>
+				</div>
+
+				<div class="panel panel-default" id="service-version_detection">
+					<div class="panel-heading">
+						<h3 class="panel-title">Service/Version Detection
+							<span class="pull-right"><button type="button" id="show_service-version_detection"><i class="fas fa-plus-circle"></i></button></span>
+						</h3>
+					</div>
+					<div class="panel-body">
+					</div>
+				</div>
+
+				<div class="panel panel-default" id="os_detection">
+					<div class="panel-heading">
+						<h3 class="panel-title">OS Detection
+							<span class="pull-right"><button type="button" id="show_os_detection"><i class="fas fa-plus-circle"></i></button></span>
+						</h3>
+					</div>
+					<div class="panel-body">
+					</div>
+				</div>
+
+				<div class="panel panel-default" id="timing_performance">
+					<div class="panel-heading">
+						<h3 class="panel-title">Timimg Performance
+							<span class="pull-right"><button type="button" id="show_timing_performance"><i class="fas fa-plus-circle"></i></button></span>
+						</h3>
+					</div>
+					<div class="panel-body">
+					</div>
+				</div>
+
+				<div class="panel panel-default" id="firewall-ids-evasion_spoofing">
+					<div class="panel-heading">
+						<h3 class="panel-title">Firewall/IDS evasion and spoofing
+							<span class="pull-right"><button type="button" id="show_firewall-ids-evasion_spoofing"><i class="fas fa-plus-circle"></i></button></span>
+						</h3>
+					</div>
+					<div class="panel-body">
+					</div>
+				</div>
+
+				<div class="panel panel-default" id="misc">
+					<div class="panel-heading">
+						<h3 class="panel-title">Misc
+							<span class="pull-right"><button type="button" id="show_misc"><i class="fas fa-plus-circle"></i></button></span>
+						</h3>
+					</div>
+					<div class="panel-body">
+					</div>
+				</div>
+
+	        	<button type="submit" class="btn-lg btn-block btn-success">Launch</button>
 	        </form>
         </div>
     </main>
@@ -29,6 +119,58 @@
     <footer>
         <% include ./partials/footer %>
     </footer>
+	<script>
+	$(document).ready(function(){
 
+	    $("div.panel.panel-default").find(".panel-body").hide();
+
+		$("button[type='button']").click(function(){
+		    var buttonId = $(this).attr('id');
+		    var parentId = buttonId.substring(5);
+			$("#"+parentId).find(".panel-body").toggle("slow");
+            $(this).find("i").toggleClass("fa-minus-circle");
+			$(this).find("i").toggleClass("fa-plus-circle");
+		})
+
+	    var nmap = <%- JSON.stringify(nmapOptions)%>
+		var nmapOptions = nmap.options;
+		//console.log(nmapOptions);
+
+        $.each(nmapOptions, function(optionKey, properties){
+			var selector = properties.category;
+            //console.log("Key: "+optionKey+" , selector: "+selector);
+
+            var optionType = properties.type;
+            var optionDesc = properties.description;
+            var optionUsage = properties.usage;
+            if(optionType == "bool"){
+				var htmlInputFormat = '\
+    				<div class="checkbox">\
+					  <label>\
+					    <input type="checkbox" name="'+optionKey+'" value="true">\
+					    <strong>'+ optionKey +': </strong>'+optionDesc+'\
+					  </label>\
+					</div>';
+
+			}else if(optionType == "integer"){
+                var htmlInputFormat = '\
+    				<div class="form-group">\
+						<label>'+optionKey+'</label>\
+						<p class="help-block">'+optionDesc+'</p>\
+						<input type="number" class="form-control" name="'+ optionKey +'" placeholder="'+optionUsage+'">\
+					</div>';
+			}else{
+                var htmlInputFormat = '\
+    				<div class="form-group">\
+						<label>'+optionKey+'</label>\
+						<p class="help-block">'+optionDesc+'</p>\
+						<input type="text" class="form-control" name="'+ optionKey +'" placeholder="'+optionUsage+'">\
+					</div>';
+			}
+            $("#"+selector).find(".panel-body").append(htmlInputFormat);
+        })
+	})
+
+	</script>
 </body>
 </html>
