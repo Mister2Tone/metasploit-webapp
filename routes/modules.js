@@ -35,10 +35,20 @@ router.get('/', async(req,res) =>{
 
 router.post('/', async(req,res) => {
 	var keyword = req.body.keyword
-	var modulesAll = await moduleApi.getExploitModules()
-					.then((result) => {
-						return result.modules
-					})
+	var moduleType = req.body.moduleType
+	console.log(req.body)
+	if(moduleType == "exploit") {
+        var modulesAll = await moduleApi.getExploitModules()
+            .then((result) => {
+                return result.modules
+            })
+    }
+    else if(moduleType == "auxiliary"){
+        var modulesAll = await moduleApi.getAuxiliaryModules()
+            .then((result) => {
+                return result.modules
+            })
+	}
 	var modulesMatch = []
 	var modules = {}
 	var index = 0;
@@ -47,14 +57,8 @@ router.post('/', async(req,res) => {
 		found = pattern.test(modulesAll[i])
 		if(found){
 			modulesMatch[index] = modulesAll[i]
-			modules[index] = await moduleApi.getModuleInfo('exploit',modulesMatch[index])
+			modules[index] = await moduleApi.getModuleInfo(moduleType,modulesMatch[index])
 					.then( (result) => {
-						// let buffer = {
-						// 	name : result.name,
-						// 	fullname : result.fullname,
-						// 	rank : result.rank,
-						// 	disclosuredate : result.disclosuredate
-						// }
 						let buffer = result
 						return buffer
 					}) 
@@ -77,6 +81,12 @@ router.get('/*/new', async(req,res) => {
 	await moduleApi.getModuleOption('exploit',moduleName)
 		.then( (result) => {
 			moduleOption = result
+		}).catch( (err) => {
+			console.log(err)
+		})
+	await moduleApi.getCompatiblePayloadModule(moduleName)
+		.then( (result) => {
+			payloadsCompatible = result
 		}).catch( (err) => {
 			console.log(err)
 		})

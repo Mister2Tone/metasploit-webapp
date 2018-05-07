@@ -15,10 +15,16 @@
 	        	<li class="active">Modules</li>
 	        </ol>
 	        <form action="/modules" method="post" class="form-inline" align="">
-				<div class="form-group">
+					<label class="radio-inline">
+					  <input type="radio" name="moduleType" value="exploit" checked>Exploit
+					</label>
+					<label class="radio-inline">
+					  <input type="radio" name="moduleType" value="auxiliary">Auxiliary
+					</label>
+				<div class="form-group pull-right">
 					<input type="text" name="keyword" class="form-control" placeholder="Module Search...">
+					<button type="submit" class="btn btn-primary pull-right">Search</button>
 				</div>
-				<button type="submit" class="btn btn-primary">Search</button>	        	
 	        </form>
 	        <table class="table table-hover">
 	        	<thead>
@@ -61,6 +67,7 @@
 
 	<script>
 		$(document).ready( function () {
+
             $('[data-toggle="tooltip"]').tooltip();
 
             var modules = <%- JSON.stringify(modules) %>;
