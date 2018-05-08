@@ -35,4 +35,15 @@ router.get('/:id/getJobInfo', async(req,res) => {
     res.write('data: ' + data + '\n\n')
 })
 
+router.get('/:id/deleteJob', async(req,res) => {
+    const jobId = req.params.id
+    await jobApi.stopJobRunning(jobId)
+        .then( (result) => {
+            console.log(result)
+        }).catch( (err) => {
+            console.log(err)
+        })
+    res.redirect('/jobs')
+})
+
 module.exports = router

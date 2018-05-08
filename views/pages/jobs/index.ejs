@@ -26,7 +26,12 @@
             <tr>
                 <td><%= Id %></td>
                 <td><%= jobs[Id] %></td>
-                <td><button type="button" class="btn btn-info">more info</button></td>
+                <td>
+                    <form class="form-inline" action="/jobs/<%= Id %>/deleteJob">
+                        <button type="button" class="btn btn-info">Info</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
             </tr>
             <%	} %>
 
