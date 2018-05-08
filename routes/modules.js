@@ -36,7 +36,7 @@ router.get('/', async(req,res) =>{
 router.post('/', async(req,res) => {
 	var keyword = req.body.keyword
 	var moduleType = req.body.moduleType
-	console.log(req.body)
+	//console.log(req.body)
 	if(moduleType == "exploit") {
         var modulesAll = await moduleApi.getExploitModules()
             .then((result) => {

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ./partials/head %>
+</head>
+<body class="container">
+<header>
+    <% include ./partials/header %>
+</header>
+
+<main>
+    <div class="col-lg-12">
+        <ol class="breadcrumb">
+            <li><a href="#">Metasploit App</a></li>
+            <li class="active">Jobs</li>
+        </ol>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Info</th>
+            </tr>
+            </thead>
+            <% for(var Id in jobs) { %>
+            <tr>
+                <td><%= Id %></td>
+                <td><%= jobs[Id] %></td>
+                <td><button type="button" class="btn btn-info">more info</button></td>
+            </tr>
+            <%	} %>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="modal fade" id="jobInfoModal" tabindex="-1" role="dialog" aria-labelledby="jobInfoLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Job Information</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="jobInfoModalText"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="jobInfoBtnClose" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <% include ./partials/footer %>
+</footer>
+<script>
+    $(document).ready(function(){
+        var jobs = <%- JSON.stringify(jobs)%>
+        $(".btn-info").click(function(){
+            jobId = $(this).closest("tr").find("td:first").html()
+            //console.log(jobId)
+
+            var sourceHosts = new EventSource('/jobs/'+jobId+'/getJobInfo');
+            sourceHosts.onmessage = function(e) {
+                data = JSON.parse(e.data)
+                $.each(data, function(key,value){
+                    // console.log(key+":"+value)
+                    $("#jobInfoModalText").append("<div>"+key+":"+value+"</div>")
+                })
+
+                //$("#jobInfoModalText").text(data)
+                sourceHosts.close();
+            }
+            $("#jobInfoModal").modal()
+        })
+        $("#jobInfoBtnClose").click(function(){
+            $("#jobInfoModalText").text("")
+        })
+    })
+</script>
+
+</body>
+</html>
