@@ -30,3 +30,6 @@ config
 
 # Debug log from npm
 npm-debug.log
+
+config/msfrpc-client.json
+config/postgres.json
